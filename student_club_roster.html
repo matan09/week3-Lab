@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Club Membership</title>
+
+  <style>
+      
+      .selected {
+        text-decoration: line-through ;
+        font-style: italic;
+        color: gray;
+      }
+
+      input {
+          width: 100%;
+          padding: 5px;
+          margin: 5px 5px 5px 0px;
+          box-sizing: border-box;
+
+      }
+
+  </style>
+
+</head>
+<body>
+
+    <h1>Student Club Roster</h1>
+
+    <h2>Add Students</h2>
+
+    <label for="student-name">Student Name</label><input id="student-name" name="student-name">
+    <br>
+    <label for="student-id">Student ID</label><input id="student-id" name="student-id">
+    <br>
+    <label for="student-gpa">Student GPA</label><input id="student-gpa" name="student-gpa" type="number">
+    <br>
+    <button id="add-student">Add Student</button>    
+
+    <h2>Student List</h2>
+
+    <p>There are 
+        <span id="student-count">
+          <!-- use JavaScript to count the number of students, and show here -->
+        </span> 
+    student(s) in the club.</p>
+    
+
+    <ul id="student-list">
+        <!-- use JavaScript to create li elements  -->
+    </ul>
+
+    <button id="remove-selected-students">Remove selected students</button>
+
+<script>
+    let studentNumCount = 0 //create a student count variable
+    let span = document.querySelector('#student-count') //find the span element with the id="student-count"
+    span.innerHTML = studentNumCount// set the span content
+
+    
+    let studentNameInputEl = document.querySelector('#student-name')// find the input element with the add #student-name
+
+    let studentIdEl = document.querySelector('#student-id')// find the input element with the id="student-id"
+    
+    let studentGpaEl = document.querySelector('#student-gpa')// find the the input element with the id="student-gpa"
+    
+    let listEl = document.querySelector("#student-list")// get the ul element by it's id "student-list"
+    
+    let removeButtonEl = document.querySelector('#remove-selected-students')//find the button element with the id = "remove-selected-students"
+  //let listItem = document.createElement('li')// create li element
+    
+    let addButtonEL = document.querySelector('#add-student')// find the button element with the id #add-student
+
+    //add event listener to the whole page
+    document.addEventListener('keyup', function() {
+         //console.log(event)
+         if (event.keyCode === 13) { // enter key has keyCode 13
+         addStudentInfo() // call addItem function
+         }
+         })
+    // add event listener to the add button element
+    addButtonEL.addEventListener('click', function(){
+        addStudentInfo() // call the student info
+    })
+    function addStudentInfo(){
+        //Read the value from the student-name input
+        let name = studentNameInputEl.value
+        // get the value in the student gpa input field
+        let gpa = studentGpaEl.value
+        //read the value from the student-id input, save in a variable
+        let studentId = studentIdEl.value
+        //add validation for all input fields
+        if(name.length == 0 && gpa.length == 0 && studentId.length == 0){
+            alert('Enter student name\nstudentID\nstudent GPA in range 0-4')
+            return
+        }
+        if(name.length < 1){
+            alert('please Enter your name')
+            
+        }else if (studentId.length == 0){
+            alert('please enter your student id')
+        }else if (gpa.length == 0 || gpa < 0 || gpa > 4){
+            alert('invalid GPA')
+        }else{
+            let listItem = document.createElement('li')
+            listItem.innerHTML = `${name + ', ID: ' + studentId + ', GPA: ' + gpa }`
+            // add event(click) listener to the new li element
+           listItem.addEventListener('click', function(){
+              this.classList.toggle('selected')// add class = 'selected' to clicked element
+           }) 
+          
+           listEl.appendChild(listItem)// add li element to the ul element
+            studentNumCount +=1 // increment the student count
+            span.innerHTML = studentNumCount // update 
+            
+            // clear all input feilds
+            studentNameInputEl.value = ''
+            studentIdEl.value = ''
+            studentGpaEl.value = ''
+
+        }
+        
+    }
+
+    removeButtonEl.addEventListener('click', function(){
+        
+        let selectedItem = document.getElementsByClassName('selected')// get elements with the class='selected'
+        
+        for(let i = selectedItem.length-1; i>-1; i--){
+            selectedItem[i].parentNode.removeChild(selectedItem[i])
+            studentNumCount-=1// increment the student counter
+            span.innerHTML = studentNumCount// update the span content that shows the number of students
+        } 
+    })
+   
+
+</script>
+
+</body>
+</html>

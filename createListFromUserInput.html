@@ -1,0 +1,81 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p>What do want to add</p>
+    <input type="text" id="user-input">
+    <button id="add-button">Add</button>
+    <button id="clear">Clear</button>
+
+    <ul id="user-list">
+        <!-- Build this with JS. Will contain a list of the user input -->
+    </ul>
+
+    <script>
+        // find the element with id='user-input'
+        let inputEl = document.querySelector('#user-input')
+        // find the element with id='add-button'
+        let addButtonEl = document.querySelector('#add-button')
+
+        // find the user-list ul using its id
+        let listEl = document.querySelector('#user-list')
+        // find the clear button by its id
+        let clearButtonEl = document.querySelector('#clear')
+
+        let listCount = 0
+
+        //add event listener to the whole page
+        document.addEventListener('keyup', function() {
+         if (event.keyCode === 13) { // enter key has keyCode 13
+         addItem() // call addItem function
+         }
+         })
+        
+
+        // add event listener for the event click
+        addButtonEl.addEventListener('click', function() {
+            addItem()// call ideItem function
+
+        }) 
+
+        // create a function to.....
+        function addItem(){
+            // validating 
+            if(inputEl.value.length == 0){
+                return
+            }
+            if(inputEl.value.length <50){ // prevent more 50 chars
+                if(listCount<10){// prevent more than 10 elements
+                    let userData = inputEl.value; // get the user's input
+                    let inputList = document.createElement('li')// create a new li element
+                    inputList.innerHTML = userData; // set the new li element's inneHTML to the user's text
+                    // prevent user adding more than 10 list element
+                    listEl.appendChild(inputList) // add the new element to the user list
+                    inputEl.value = ''// clear the input field after adding 
+                    listCount = listCount+1
+                    } else{
+                        alert('you cant add any more')// msg for more than 10 elements
+                }
+            }else{
+                alert('text too long')//msg for more than 50 chars
+            }
+            
+        } 
+
+        // add event listener for the clear button
+        clearButtonEl.addEventListener('click', function(){
+            // clear all the list
+           listEl.innerHTML = ''
+           inputEl.value = ''// input field
+           listCount = 0 // reset list count to allow user to add up to elements
+
+        })
+
+    
+    </script>
+</body>
+</html>
